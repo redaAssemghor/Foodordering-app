@@ -1,17 +1,29 @@
 import { StyleSheet, Image } from "react-native";
 
-import EditScreenInfo from "@/src/components/EditScreenInfo";
-import { Text, View } from "@/src/components/Themed";
-import products from "@/assets/data/products";
-import Colors from "@/src/constants/Colors";
+import EditScreenInfo from "@components/EditScreenInfo";
+import { Text, View } from "@components/Themed";
+import products from "@assets/data/products";
+import Colors from "src/constants/Colors";
+import { Product } from "../types";
+import { Link } from "expo-router";
 
-export default function ProductListItem({ product }) {
+type ProductListItemProps = {
+  product: Product;
+};
+
+export default function ProductListItem({ product }: ProductListItemProps) {
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: product.image }} style={styles.image} />
-      <text style={styles.title}>{product.name}</text>
-      <text style={styles.price}>${product.price}</text>
-    </View>
+    <Link href={`/${product.id}`} asChild>
+      <View style={styles.container}>
+        <Image
+          source={{ uri: product.image }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <text style={styles.title}>{product.name}</text>
+        <text style={styles.price}>${product.price}</text>
+      </View>
+    </Link>
   );
 }
 
@@ -19,6 +31,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     padding: 10,
+    flex: 1,
+    maxWidth: "50%",
   },
   title: {
     fontSize: 20,
